@@ -21,19 +21,27 @@ class Board extends React.Component {
         );
     }
 
-    buildMonth = (dayCount) => {
-        let week = [];
-        for (let foo = 0; foo < 4; foo++) {
-            for (let bar = 0; bar < dayCount; bar++) {
+    buildMonth = (weeksPerMonth, daysPerWeek) => {
+        let month = [];
+        let weeks;
+        let weeksCount = 4;
+        for (let foo = 0; foo < weeksPerMonth; foo++) {
+            let week = [];
+            for (let bar = 0; bar < daysPerWeek; bar++) {
                 week.push(
                     <Square 
                         value={this.props.squares[bar]}
                         onClick={() => this.props.onClick(bar)}
                     />
                 );
+            weeks.push(<tr>{week}</tr>)
             }
         }
-        return week;
+        
+        month.push(
+            <table className="month">{weeks}</table>
+        );
+        return month;
     };
 
 
