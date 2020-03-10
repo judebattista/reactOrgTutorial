@@ -34,8 +34,8 @@ class Board extends React.Component {
                         onClick={() => this.props.onClick(ndx)}
                     />
                 );
-            weeks.push(<tr>{week}</tr>)
             }
+            weeks.push(<tr>{week}</tr>)
         }
         
         month.push(
