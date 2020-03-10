@@ -10,17 +10,7 @@ function Square(props) {
     );
 }
 
-
 class Board extends React.Component {
-    renderSquare(i) {
-        return (
-            <Square
-                value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i)}
-            />
-        );
-    }
-
     buildMonth = (weeksPerMonth, daysPerWeek) => {
         let month = [];
         let weeks = [];
@@ -29,21 +19,21 @@ class Board extends React.Component {
             for (let bar = 0; bar < daysPerWeek; bar++) {
                 let ndx = foo * daysPerWeek + bar;
                 week.push(
-                    <Square 
-                        value={this.props.squares[ndx]}
+                    <Square
+                        key={ndx}
+                        value={ndx + 1}
                         onClick={() => this.props.onClick(ndx)}
+                        background-color={this.props.squareColors[ndx]}
                     />
                 );
             }
             weeks.push(<tr>{week}</tr>)
         }
-        
         month.push(
             <table className="month">{weeks}</table>
         );
         return month;
     };
-
 
     render() {
         return (
@@ -62,33 +52,28 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            history: [
-                {
-                    squares: Array(9).fill(null)
-                }
-            ],
-            stepNumber: 0,
-            xIsNext: true
+            squareColors: Array(28).map(() => {
+                return "#DDDDDD";
+            }),
         };
     }
 
     handleClick(i) {
-        const history = this.state.history.slice(0, this.state.stepNumber + 1);
-        const current = history[history.length - 1];
-        const squares = current.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-        }
-        squares[i] = this.state.xIsNext ? "X" : "O";
-        this.setState({
-            history: history.concat([
-                {
-                    squares: squares
+        this.setState(
+            squareColors: () => {
+                const len = this.state.squareColors.length;
+                tempColors = Array(len);
+                for (let ndx = 0; ndx < len; ndx++) {
+                    if (ndx == i) {
+                        tempColors[i] = '#ff0000';
+                    } else {
+                        tempColors[i] = this.state.squareColors[i];
+                    }
                 }
-            ]),
-            stepNumber: history.length,
-            xIsNext: !this.state.xIsNext
-        });
+                return tempColors;
+            }
+        );
+
     }
 
     jumpTo(step) {
