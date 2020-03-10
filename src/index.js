@@ -23,15 +23,15 @@ class Board extends React.Component {
 
     buildMonth = (weeksPerMonth, daysPerWeek) => {
         let month = [];
-        let weeks;
-        let weeksCount = 4;
+        let weeks = [];
         for (let foo = 0; foo < weeksPerMonth; foo++) {
             let week = [];
             for (let bar = 0; bar < daysPerWeek; bar++) {
+                let ndx = foo * daysPerWeek + bar;
                 week.push(
                     <Square 
-                        value={this.props.squares[bar]}
-                        onClick={() => this.props.onClick(bar)}
+                        value={this.props.squares[ndx]}
+                        onClick={() => this.props.onClick(ndx)}
                     />
                 );
             weeks.push(<tr>{week}</tr>)
@@ -50,7 +50,7 @@ class Board extends React.Component {
             <div>
                 <div className="board-row">
                 {
-                    this.buildMonth(7)
+                    this.buildMonth(4,7)
                 }           
                 </div>
             </div>
