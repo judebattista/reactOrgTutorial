@@ -4,7 +4,7 @@ import './index.css'
 
 function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className="square" backgroundColor={props.backgroundColor} onClick={props.onClick}>
             {props.value}
         </button>
     );
@@ -23,7 +23,7 @@ class Board extends React.Component {
                         key={ndx}
                         value={ndx + 1}
                         onClick={() => this.props.onClick(ndx)}
-                        background-color={this.props.squareColors[ndx]}
+                        backgroundColor={this.props.squareColors[ndx]}
                     />
                 );
             }
@@ -58,65 +58,29 @@ class Game extends React.Component {
         };
     }
 
-    handleClick(i) {
-        this.setState(
-            squareColors: () => {
-                const len = this.state.squareColors.length;
-                tempColors = Array(len);
-                for (let ndx = 0; ndx < len; ndx++) {
-                    if (ndx == i) {
-                        tempColors[i] = '#ff0000';
-                    } else {
-                        tempColors[i] = this.state.squareColors[i];
-                    }
+    handleClick = (i) => {
+        this.setState( (state) => {
+            const squareColors = state.squareColors.map( (item, ndx) => {
+                if (ndx === i) {
+                    return "#FF000";
+                } else {
+                    return state.squareColors[ndx]
                 }
-                return tempColors;
-            }
-        );
-
-    }
-
-    jumpTo(step) {
-        this.setState({
-            stepNumber: step,
-            xIsNext: (step % 2) === 0
+            });
+            return squareColors;
         });
-    }
+        alert("Clicked" + i);
+    };
 
     render() {
-        const history = this.state.history;
-        const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
-
-        const moves = history.map((step, move) => {
-            const desc = move ?
-                'Go to move #' + move :
-                'Go to game start';
-            return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-                );
-        });
-
-        let status;
-        if (winner) {
-            status = "Winner: " + winner;
-        } else {
-            status = "Next player: " + (this.state.xIsNext ? "X" : "O");
-        }
 
         return (
             <div className="game">
                 <div className="game-board">
                     <Board
-                        squares={current.squares}
-                        onClick={i => this.handleClick(i)}
+                        onClick={(i) => this.handleClick(i)}
+                        squareColors={this.state.squareColors}
                     />
-                </div>
-                <div className="game-info">
-                    <div>{status}</div>
-                    <ol>{moves}</ol>
                 </div>
             </div>
         );
