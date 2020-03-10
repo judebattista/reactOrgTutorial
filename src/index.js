@@ -50,7 +50,7 @@ class Board extends React.Component {
             <div>
                 <div className="board-row">
                 {
-                    this.buildMonth(4,7)
+                    this.buildMonth(5,7)
                 }           
                 </div>
             </div>
@@ -79,7 +79,7 @@ class Game extends React.Component {
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
-        squares[i] = this.state.xIsNext ? "X" : "O";
+        squares[i] = this.state.xIsNext ? "X" : "X";
         this.setState({
             history: history.concat([
                 {
@@ -105,8 +105,8 @@ class Game extends React.Component {
 
         const moves = history.map((step, move) => {
             const desc = move ?
-                'Go to move #' + move :
-                'Go to game start';
+                'Go to schedule configuration #' + move :
+                'Reset schedule to empty';
             return (
                 <li key={move}>
                     <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -118,7 +118,7 @@ class Game extends React.Component {
         if (winner) {
             status = "Winner: " + winner;
         } else {
-            status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+            status = "Full time slot: " + (this.state.xIsNext ? "X" : "X");
         }
 
         return (
